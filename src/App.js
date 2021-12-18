@@ -1,25 +1,22 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react';
+import Dashboard from './components/dashboard/Dashboard';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
-export default App;
+export default () => {
+    const [selected, setSelected] = useState(options[0]);
+    return (
+        <div>
+            <Header />
+            {/* <Route path="/dropdown">
+                <Dropdown 
+                    label="Select a color"
+                    options={options}
+                    selected={selected}
+                    onSelectedChange={setSelected}
+                />
+            </Route> */}
+            <Route path="/dashboard">
+                <Dashboard/>
+            </Route>
+        </div>
+    );
+};

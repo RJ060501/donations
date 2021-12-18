@@ -1,17 +1,47 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import { createStore, applyMiddleware, compose } from "redux";
+import { Provider } from "react-redux";
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+import reducers from "./reducers";
+import axios from 'axios';
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+    faHeart,
+    faSitemap,
+    faHome,
+    faTimes
+  } from "@fortawesome/free-solid-svg-icons";
+library.add(faHeart, faSitemap, faHome, faTimes);
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
+axios.defaults.baseURL = config.baseURLApi;
+axios.defaults.headers.common["Content-Type"] = "application/json";
+
+const decryptedToken = decryptToken(
+localStorage.getItem("HWuCsirI$sD4"),
+"obj"
+);
+const token = (decryptedToken || {}).token;
+
+if (token) {
+axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+}
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(
+reducers,
+composeEnhancers(applyMiddleware(ReduxThunk))
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+ReactDOM.render(
+<Provider store={store}>
+    <App />
+</Provider>,
+document.getElementById("root")
+);
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: http://bit.ly/CRA-PWA
+serviceWorker.register();
+// ReactDOM.render(<App />, document.querySelector('#root'));
